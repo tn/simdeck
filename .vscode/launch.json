@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:simdeck}",
+      "name": "Debug SimDeck",
+      "target": "SimDeck",
+      "configuration": "debug",
+      "preLaunchTask": "swift: Build Debug SimDeck"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:simdeck}",
+      "name": "Release SimDeck",
+      "target": "SimDeck",
+      "configuration": "release",
+      "preLaunchTask": "swift: Build Release SimDeck"
+    }
+  ]
+}
