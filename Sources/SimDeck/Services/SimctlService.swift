@@ -25,20 +25,6 @@ enum SimctlError: Error, UserPresentableError {
         }
     }
 
-    var debugMessage: String {
-        switch self {
-        case .noBootedSimulator:
-            return "No booted iOS simulator in simctl list devices --json output."
-        case .selectedSimulatorNotFound:
-            return "Selected UDID was not present in simctl output."
-        case .selectedSimulatorNotBooted(let name):
-            return "Selected simulator is not booted: \(name)."
-        case .commandFailed(let command, let stderr):
-            return "\(command) failed: \(stderr)"
-        case .invalidDevicesJSON:
-            return "Failed to decode simctl devices JSON."
-        }
-    }
 }
 
 final class SimctlService {
@@ -69,7 +55,6 @@ final class SimctlService {
                             name: $0.name,
                             udid: $0.udid,
                             state: $0.state,
-                            isAvailable: $0.isAvailable,
                             runtime: runtimeDisplayName(from: runtime),
                             deviceTypeIdentifier: $0.deviceTypeIdentifier
                         )

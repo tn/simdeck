@@ -80,14 +80,10 @@ final class AppModel: ObservableObject {
                     appearanceToRestore = try? await simctlService.currentAppearance(device: appearanceRestoreDevice)
                 }
 
-                outcomes = try await [AppearanceMode.light, .dark].asyncMap { appearance in
-                    var variantSettings = captureSettings
-                    variantSettings.appearanceMode = appearance
-                    return try await screenshotService.takeScreenshot(
-                        settings: variantSettings,
-                        filenameAppearanceVariant: appearance
-                    )
-                }
+                outcomes = try await captureScreenshots(
+                    for: [.light, .dark],
+                    settings: captureSettings
+                )
             } else {
                 outcomes = [try await screenshotService.takeScreenshot(settings: captureSettings)]
             }
@@ -135,6 +131,26 @@ final class AppModel: ObservableObject {
         }
 
         try? await simctlService.setAppearance(device: device, appearance: appearance)
+    }
+
+    private func captureScreenshots(
+        for appearances: [AppearanceMode],
+        settings: AppSettings
+    ) async throws -> [ScreenshotOutcome] {
+        var outcomes: [ScreenshotOutcome] = []
+        outcomes.reserveCapacity(appearances.count)
+
+        for appearance in appearances {
+            var variantSettings = settings
+            variantSettings.appearanceMode = appearance
+            let outcome = try await screenshotService.takeScreenshot(
+                settings: variantSettings,
+                filenameAppearanceVariant: appearance
+            )
+            outcomes.append(outcome)
+        }
+
+        return outcomes
     }
 
     func chooseOutputFolder() {
@@ -193,16 +209,5 @@ final class AppModel: ObservableObject {
             return description
         }
         return error.localizedDescription
-    }
-}
-
-private extension Array {
-    func asyncMap<T>(_ transform: (Element) async throws -> T) async throws -> [T] {
-        var values: [T] = []
-        values.reserveCapacity(count)
-        for element in self {
-            values.append(try await transform(element))
-        }
-        return values
     }
 }

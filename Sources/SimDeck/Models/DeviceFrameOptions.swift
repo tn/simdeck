@@ -62,15 +62,31 @@ struct DeviceFrameOptionsCodable: Codable, Equatable {
 }
 
 enum DeviceFrameMode: String, Codable, CaseIterable, Identifiable {
-    case off
     case auto
-    case genericIPhone
     case genericIPhoneDynamicIsland
     case genericIPhoneNotch
     case genericIPhoneSE
     case genericIPad
 
     var id: String { rawValue }
+
+    init(from decoder: Decoder) throws {
+        let rawValue = try decoder.singleValueContainer().decode(String.self)
+        switch rawValue {
+        case Self.auto.rawValue:
+            self = .auto
+        case Self.genericIPhoneDynamicIsland.rawValue:
+            self = .genericIPhoneDynamicIsland
+        case Self.genericIPhoneNotch.rawValue:
+            self = .genericIPhoneNotch
+        case Self.genericIPhoneSE.rawValue:
+            self = .genericIPhoneSE
+        case Self.genericIPad.rawValue:
+            self = .genericIPad
+        default:
+            self = .auto
+        }
+    }
 
     static var menuCases: [DeviceFrameMode] {
         [.auto, .genericIPhoneDynamicIsland, .genericIPhoneNotch]
@@ -82,12 +98,8 @@ enum DeviceFrameMode: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .off:
-            return "Off"
         case .auto:
             return "Auto (Current Device)"
-        case .genericIPhone:
-            return "Generic iPhone"
         case .genericIPhoneDynamicIsland:
             return "iPhone Dynamic Island"
         case .genericIPhoneNotch:

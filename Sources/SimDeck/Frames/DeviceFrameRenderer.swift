@@ -203,9 +203,6 @@ final class DeviceFrameRenderer {
         case .fullScreen:
             break
 
-        case .speaker:
-            drawSpeaker(in: bodyRect, screenInsets: screenInsets, scale: scale)
-
         case .homeButton:
             drawSpeaker(in: bodyRect, screenInsets: screenInsets, scale: scale)
             let diameter = max(42 * scale, min(bodyRect.width, bodyRect.height) * 0.055)
@@ -309,7 +306,6 @@ final class DeviceFrameRenderer {
 private enum DeviceFrameHardware {
     case fullScreen
     case homeButton
-    case speaker
     case iPad
 }
 
@@ -323,11 +319,7 @@ private struct DeviceFrameProfile {
     let minimumSideInset: CGFloat
     let minimumTopInset: CGFloat
     let minimumBottomInset: CGFloat
-    let outerRadiusRatio: CGFloat
-    let bodyRadiusRatio: CGFloat
     let screenRadiusRatio: CGFloat
-    let minimumOuterRadius: CGFloat
-    let minimumBodyRadius: CGFloat
     let minimumScreenRadius: CGFloat
     let shadowAlpha: CGFloat
 
@@ -337,14 +329,10 @@ private struct DeviceFrameProfile {
             return resolve(mode: DeviceFrameMode.automaticMode(for: simulator), simulator: simulator)
         case .genericIPhoneDynamicIsland, .genericIPhoneNotch:
             return modernIPhone
-        case .genericIPhone:
-            return genericIPhone
         case .genericIPhoneSE:
             return classicIPhone
         case .genericIPad:
             return iPad
-        case .off:
-            return modernIPhone
         }
     }
 
@@ -384,32 +372,9 @@ private struct DeviceFrameProfile {
         minimumSideInset: 22,
         minimumTopInset: 21,
         minimumBottomInset: 21,
-        outerRadiusRatio: 0.150,
-        bodyRadiusRatio: 0.138,
         screenRadiusRatio: 0.205,
-        minimumOuterRadius: 114,
-        minimumBodyRadius: 102,
         minimumScreenRadius: 176,
         shadowAlpha: 0.42
-    )
-
-    private static let genericIPhone = DeviceFrameProfile(
-        hardware: .speaker,
-        railWidthRatio: 0.010,
-        minimumRailWidth: 8,
-        sideInsetRatio: 0.026,
-        topInsetRatio: 0.055,
-        bottomInsetRatio: 0.026,
-        minimumSideInset: 20,
-        minimumTopInset: 48,
-        minimumBottomInset: 20,
-        outerRadiusRatio: 0.062,
-        bodyRadiusRatio: 0.056,
-        screenRadiusRatio: 0.030,
-        minimumOuterRadius: 42,
-        minimumBodyRadius: 36,
-        minimumScreenRadius: 18,
-        shadowAlpha: 0.34
     )
 
     private static let classicIPhone = DeviceFrameProfile(
@@ -422,11 +387,7 @@ private struct DeviceFrameProfile {
         minimumSideInset: 24,
         minimumTopInset: 88,
         minimumBottomInset: 104,
-        outerRadiusRatio: 0.055,
-        bodyRadiusRatio: 0.050,
         screenRadiusRatio: 0.006,
-        minimumOuterRadius: 38,
-        minimumBodyRadius: 32,
         minimumScreenRadius: 2,
         shadowAlpha: 0.32
     )
@@ -441,11 +402,7 @@ private struct DeviceFrameProfile {
         minimumSideInset: 22,
         minimumTopInset: 22,
         minimumBottomInset: 22,
-        outerRadiusRatio: 0.033,
-        bodyRadiusRatio: 0.029,
         screenRadiusRatio: 0.018,
-        minimumOuterRadius: 28,
-        minimumBodyRadius: 24,
         minimumScreenRadius: 10,
         shadowAlpha: 0.30
     )

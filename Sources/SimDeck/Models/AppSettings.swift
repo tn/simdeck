@@ -12,7 +12,6 @@ struct AppSettings: Codable, Equatable {
     var prettyStatusBarEnabled: Bool
     var statusBarPreset: StatusBarPreset
     var appearanceMode: AppearanceMode
-    var captureLightAndDarkAppearances: Bool
 
     var deviceFrameEnabled: Bool
     var frameOptions: DeviceFrameOptionsCodable
@@ -28,7 +27,6 @@ struct AppSettings: Codable, Equatable {
         prettyStatusBarEnabled: true,
         statusBarPreset: .default,
         appearanceMode: .doNotChange,
-        captureLightAndDarkAppearances: false,
         deviceFrameEnabled: false,
         frameOptions: .default
     )
@@ -44,7 +42,6 @@ struct AppSettings: Codable, Equatable {
         prettyStatusBarEnabled: Bool,
         statusBarPreset: StatusBarPreset,
         appearanceMode: AppearanceMode,
-        captureLightAndDarkAppearances: Bool,
         deviceFrameEnabled: Bool,
         frameOptions: DeviceFrameOptionsCodable
     ) {
@@ -58,7 +55,6 @@ struct AppSettings: Codable, Equatable {
         self.prettyStatusBarEnabled = prettyStatusBarEnabled
         self.statusBarPreset = statusBarPreset
         self.appearanceMode = appearanceMode
-        self.captureLightAndDarkAppearances = captureLightAndDarkAppearances
         self.deviceFrameEnabled = deviceFrameEnabled
         self.frameOptions = frameOptions
     }
@@ -76,40 +72,11 @@ struct AppSettings: Codable, Equatable {
         self.prettyStatusBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .prettyStatusBarEnabled) ?? defaults.prettyStatusBarEnabled
         self.statusBarPreset = try container.decodeIfPresent(StatusBarPreset.self, forKey: .statusBarPreset) ?? defaults.statusBarPreset
         self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? defaults.appearanceMode
-        self.captureLightAndDarkAppearances = try container.decodeIfPresent(Bool.self, forKey: .captureLightAndDarkAppearances) ?? defaults.captureLightAndDarkAppearances
         self.deviceFrameEnabled = try container.decodeIfPresent(Bool.self, forKey: .deviceFrameEnabled) ?? defaults.deviceFrameEnabled
         self.frameOptions = try container.decodeIfPresent(DeviceFrameOptionsCodable.self, forKey: .frameOptions) ?? defaults.frameOptions
     }
 
     var outputFolderURL: URL {
         URL(fileURLWithPath: (outputFolderPath as NSString).expandingTildeInPath, isDirectory: true)
-    }
-}
-
-final class AppSettingsStore {
-    private let key = "appSettings"
-    private let defaults: UserDefaults
-
-    init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
-    }
-
-    func load() -> AppSettings {
-        guard let data = defaults.data(forKey: key) else {
-            return .default
-        }
-
-        do {
-            return try JSONDecoder().decode(AppSettings.self, from: data)
-        } catch {
-            return .default
-        }
-    }
-
-    func save(_ settings: AppSettings) {
-        guard let data = try? JSONEncoder().encode(settings) else {
-            return
-        }
-        defaults.set(data, forKey: key)
     }
 }

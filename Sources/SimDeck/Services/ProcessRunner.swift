@@ -23,12 +23,6 @@ enum ProcessRunnerError: Error, UserPresentableError {
         }
     }
 
-    var debugMessage: String {
-        switch self {
-        case .launchFailed(let executable, let underlying):
-            return "Launch failed for \(executable): \(underlying.localizedDescription)"
-        }
-    }
 }
 
 final class ProcessRunner {

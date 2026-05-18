@@ -2,7 +2,6 @@ import Foundation
 
 struct ScreenshotOutcome {
     let outputURL: URL
-    let rawURL: URL
     let simulator: SimulatorDevice
     let warnings: [String]
 }
@@ -20,14 +19,6 @@ enum ScreenshotError: Error, UserPresentableError {
         }
     }
 
-    var debugMessage: String {
-        switch self {
-        case .outputDirectoryFailed(let url, let error):
-            return "Could not create output folder \(url.path): \(error.localizedDescription)"
-        case .rawScreenshotMissing:
-            return "simctl completed but the raw screenshot file is missing."
-        }
-    }
 }
 
 final class ScreenshotService {
@@ -126,7 +117,6 @@ final class ScreenshotService {
 
         return ScreenshotOutcome(
             outputURL: finalURL,
-            rawURL: rawURL,
             simulator: simulator,
             warnings: warnings
         )

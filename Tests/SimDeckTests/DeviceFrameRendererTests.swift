@@ -79,7 +79,6 @@ final class DeviceFrameRendererTests: XCTestCase {
             name: name,
             udid: UUID().uuidString,
             state: "Booted",
-            isAvailable: true,
             runtime: "iOS 26 5",
             deviceTypeIdentifier: type
         )

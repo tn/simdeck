@@ -4,7 +4,6 @@ struct SimulatorDevice: Identifiable, Codable, Equatable {
     let name: String
     let udid: String
     let state: String
-    let isAvailable: Bool
     let runtime: String?
     let deviceTypeIdentifier: String?
 
