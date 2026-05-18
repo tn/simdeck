@@ -5,6 +5,28 @@ It can capture the currently booted simulator, apply a clean status bar preset,
 save light and dark appearance variants, and optionally render the screenshot
 inside a device frame.
 
+## Installation
+
+Install SimDeck with Homebrew:
+
+```bash
+brew tap tn/simdeck
+brew install --cask simdeck
+```
+
+SimDeck requires macOS 13 or newer and an Apple Silicon Mac for the current
+Homebrew cask release.
+
+## Preview
+
+<p>
+  <img src="docs/assets/simdeck-menu.png" alt="SimDeck menu bar dropdown" width="320">
+</p>
+
+<p>
+  <img src="docs/assets/simdeck-settings.png" alt="SimDeck settings window" width="720">
+</p>
+
 ## Features
 
 - Capture screenshots from the booted iOS Simulator or a selected simulator.
